@@ -8,6 +8,7 @@ const passport = require("passport");
 
 // load input validation
 const validateRegisterInput = require("../../validation/register");
+const validateLoginInput = require("../../validation/login");
 // load user model
 const User = require("../../models/User");
 // @route GET api/v1/users/test
@@ -60,6 +61,10 @@ router.post("/register", (req, res) => {
 // @desc login user route/ return jwt token
 // @access Public
 router.post("/login", (req, res) => {
+  const { errors, isValid } = validateLoginInput(req.body);
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
   const email = req.body.email;
   const password = req.body.password;
 
@@ -85,10 +90,12 @@ router.post("/login", (req, res) => {
         // res.json({ status: true, message: "Success" });
 
         // sign token
-        jwt.sign(payload, keys.key, { expiresIn: 900 }, (err, token) => {
+        jwt.sign(payload, keys.key, { expiresIn: 5680000 }, (err, token) => {
           res.json({
             status: true,
-            token: `Bearer ${token}`
+            token: `Bearer ${token}`,
+            name: payload.name,
+            email: payload.email
           });
         });
       } else {
