@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require("passport");
+const cors = require('cors');
 
 const users = require("./routes/api/users");
 const profile = require("./routes/api/profile");
@@ -12,6 +13,16 @@ const app = express();
 // Body parser
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cors());
+app.options('*', cors());
+// app.use((req, res, next) => {
+//   res.setHeader('Access-Control-Allow-Origin', '*');
+//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+//   res.setHeader('Access-Control-Allow-Headers','Authorization, Content-Type');
+//   res.setHeader('Access-Control-Allow-Credentials', true);
+//   //res.set('Content-Type', 'application/json');
+//   next();
+// });
 
 // DB config
 const db = require("./config/keys").mongoURI;

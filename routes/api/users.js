@@ -11,6 +11,7 @@ const validateRegisterInput = require("../../validation/register");
 const validateLoginInput = require("../../validation/login");
 // load user model
 const User = require("../../models/User");
+
 // @route GET api/v1/users/test
 // @desc Tests user route
 // @access Public
@@ -72,10 +73,9 @@ router.post("/login", (req, res) => {
   User.findOne({ email }).then(user => {
     //  check for user
     if (!user) {
-      return res.status(404).json({
-        status: false,
-        message: "User does not exist"
-      });
+      errors.email = "User does not exist";
+      console.log(errors);
+      return res.status(404).json(errors);
     }
     // check password
     bcrypt.compare(password, user.password).then(isMatch => {
@@ -90,18 +90,18 @@ router.post("/login", (req, res) => {
         // res.json({ status: true, message: "Success" });
 
         // sign token
-        jwt.sign(payload, keys.key, { expiresIn: 5680000 }, (err, token) => {
+        jwt.sign(payload, keys.key, { expiresIn: 3600 }, (err, token) => {
+          // console.log(res.json());
           res.json({
             status: true,
             token: `Bearer ${token}`,
-            name: payload.name,
-            email: payload.email
           });
         });
       } else {
+        errors.password = "Incorrect password";
         return res
           .status(400)
-          .json({ status: false, message: "Incorrect password" });
+          .json(errors);
       }
     });
   });
