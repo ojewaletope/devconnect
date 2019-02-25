@@ -9,7 +9,7 @@ const initialState = {
 };
 
 export default (state = initialState, action) => {
-  switch (action.typ) {
+  switch (action.type) {
     case PROFILE_LOADING:
       return {
         ...state,

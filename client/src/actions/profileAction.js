@@ -34,4 +34,4 @@ export const clearProfile = () => {
   return {
     type: CLEAR_CURRENT_PROFILE
   }
-}
+};
