@@ -1,5 +1,5 @@
 import {
-  CLEAR_CURRENT_PROFILE, GET_PROFILE, PROFILE_LOADING
+  CLEAR_CURRENT_PROFILE, GET_PROFILE, LOADING
 } from "../actions/types";
 import axios from "axios";
 import { url } from "../config/config";
@@ -25,7 +25,7 @@ export const getUserProfile = () => dispatch => {
 // set profile loading
 export const setProfileLoading = () => {
   return {
-    type: PROFILE_LOADING
+    type: LOADING
   };
 };
 

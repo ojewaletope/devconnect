@@ -1,9 +1,9 @@
-import {GET_ERRORS} from './types'
-import {SET_CURRENT_USER} from './types'
-import { url } from "../config/config";
-import axios from "axios";
-import setAuthToken from '../utils/setAuthToken'
-import jwt_decode from 'jwt-decode'
+import {GET_ERRORS, LOADING} from './types'
+import {SET_CURRENT_USER}    from './types'
+import { url }               from "../config/config";
+import axios                 from "axios";
+import setAuthToken          from '../utils/setAuthToken'
+import jwt_decode            from 'jwt-decode'
 // Register
 export const registerUser = (userData, history) => dispatch =>{
   axios
@@ -24,6 +24,7 @@ export const registerUser = (userData, history) => dispatch =>{
 
 // login user
 export const loginUser = (user) => dispatch => {
+  dispatch(setLoading());
   axios
     .post(`${url}/api/v1/users/login`, user)
     .then(user => {
@@ -62,4 +63,10 @@ export const logUserOut = () => dispatch => {
   setAuthToken(false);
   // set current user to {} which will set isAuthenticated to false
   dispatch(setCurrentUser({}))
-}
+};
+// set  loading
+export const setLoading = () => {
+  return {
+    type: LOADING
+  };
+};

@@ -1,10 +1,9 @@
 import React, { Component } from "react";
-import PropTypes            from 'prop-types';
-import {withRouter}         from 'react-router-dom';
-import classnames           from "classnames";
-import {connect}            from 'react-redux';
-import {registerUser}       from '../../actions/authAction'
-import TextFieldGroup       from "../shared/TextField";
+import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import { registerUser } from "../../actions/authAction";
+import { TextFieldGroup } from "../shared/FormFields";
 
 class Register extends Component {
   state = {
@@ -15,12 +14,12 @@ class Register extends Component {
   };
   componentDidMount() {
     if (this.props.auth.isAuthenticated) {
-      this.props.history.push('/dashboard');
+      this.props.history.push("/dashboard");
     }
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
-      this.setState({errors: nextProps.errors})
+      this.setState({ errors: nextProps.errors });
     }
   }
   onInputChange = e => {
@@ -34,7 +33,7 @@ class Register extends Component {
       password: this.state.password
     };
     this.props.registerUser(newUser, this.props.history);
-    console.log(this.state.errors)
+    console.log(this.state.errors);
   };
   render() {
     const { errors } = this.state;
@@ -85,10 +84,13 @@ class Register extends Component {
 Register.propTypes = {
   registerUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
 };
 const mapStateToProps = state => ({
   auth: state.auth,
   errors: state.errors
 });
-export default connect(mapStateToProps, {registerUser})(withRouter(Register));
+export default connect(
+  mapStateToProps,
+  { registerUser }
+)(withRouter(Register));
